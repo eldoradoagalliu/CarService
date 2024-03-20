@@ -6,7 +6,7 @@
 body {
     margin: 0 8% auto;
     padding: 10px;
-    background: deepskyblue;
+    background: #0099DB;
     text-align: center;
 }
 
@@ -15,7 +15,7 @@ body {
     height: 100%;
     padding: 15px;
     border-radius: 15px;
-    background: whitesmoke;
+    background: #E4E4E4;
 }
 
 .search-part, .new-car-part, .service-part {
