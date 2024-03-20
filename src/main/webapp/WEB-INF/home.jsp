@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="ISO-8859-1" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="ISO-8859-1" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page isErrorPage="true" %>
@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-<h1 class="text-decoration-underline mb-3">Car Service</h1>
+<h1 class="text-decoration-underline mb-3">My Service</h1>
 <div class="main-part">
     <c:if test="${searchEnabled == true}">
         <div class="float-start">
@@ -21,19 +21,25 @@
     </c:if>
     <div class="search-part mt-2 mx-5 px-5">
         <form:form action="/searchCar" method="post">
-            <input name="inputtedPlate" placeholder="Input car plate" required="required"/>
+            <label><input name="inputtedPlate" placeholder="Input car plate" required="required"/></label>
             <button class="btn btn-success button-font mx-2">Search</button>
         </form:form>
     </div>
     <c:if test="${searchEnabled == true}">
         <div>
-            <c:if test="${carPlate != null}">Car with plate: <a href="/car/${carPlate}" class="link">${carPlate}</a></c:if>
-            <c:if test="${carPlate == null}"><c:out value="There was no car with this plate!"/></c:if>
+            <c:choose>
+                <c:when test="${carPlate != null}">
+                    Car with plate: <a href="/car/${carPlate}" class="link">${carPlate}</a>
+                </c:when>
+                <c:otherwise>
+                    <c:out value="There was no car with this plate!"/>
+                </c:otherwise>
+            </c:choose>
         </div>
         <div class="extra-margin"></div>
     </c:if>
     <c:if test="${showAddCarForm == true}">
-        <h3 class="mt-5">Add new care to service</h3>
+        <h3 class="mt-5">Add new car to service</h3>
         <div class="new-car-part mb-5">
                 <%--@elvariable id="car" type=""--%>
             <form:form action="/addCar" method="post" modelAttribute="car">
@@ -54,27 +60,33 @@
         <c:if test="${cars.size() > 0}">
             <c:if test="${showAllCars == true}"><h3>Total number of cars: <c:out value="${cars.size()}"/></h3></c:if>
             <h3 class="mt-3">Cars added to this service:</h3>
-            <c:if test="${showAllCars == null}">
-                <ul>
-                    <c:forEach var="car" items="${cars}" end="${9}">
-                        <li class="no-bullet-list m-2 d-inline-block">
-                            <a href="/car/${car.plate}" class="link text-decoration-none"><c:out value="${car.plate}"/></a>
-                        </li>
-                    </c:forEach>
-                    <c:if test="${cars.size() > 10}">
-                        <li class="no-bullet-list m-2 d-inline-block"><a href="/showAllCars">See more...</a></li>
-                    </c:if>
-                </ul>
-            </c:if>
-            <c:if test="${showAllCars == true}">
-                <ol class="center-ol">
-                    <c:forEach var="car" items="${cars}">
-                        <li class="m-2">
-                            <a href="/car/${car.plate}" class="link text-decoration-none"><c:out value="${car.plate}"/></a>
-                        </li>
-                    </c:forEach>
-                </ol>
-            </c:if>
+            <c:choose>
+                <c:when test="${showAllCars == null}">
+                    <ul>
+                        <c:forEach var="car" items="${cars}" end="${9}">
+                            <li class="no-bullet-list m-2 d-inline-block">
+                                <a href="/car/${car.plate}" class="link text-decoration-none">
+                                    <c:out value="${car.plate}"/>
+                                </a>
+                            </li>
+                        </c:forEach>
+                        <c:if test="${cars.size() > 10}">
+                            <li class="no-bullet-list m-2 d-inline-block"><a href="/showAllCars">See more...</a></li>
+                        </c:if>
+                    </ul>
+                </c:when>
+                <c:otherwise>
+                    <ol class="center-ol">
+                        <c:forEach var="car" items="${cars}">
+                            <li class="m-2">
+                                <a href="/car/${car.plate}" class="link text-decoration-none">
+                                    <c:out value="${car.plate}"/>
+                                </a>
+                            </li>
+                        </c:forEach>
+                    </ol>
+                </c:otherwise>
+            </c:choose>
         </c:if>
     </div>
 </div>
