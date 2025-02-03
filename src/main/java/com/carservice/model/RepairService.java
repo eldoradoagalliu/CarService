@@ -1,19 +1,33 @@
-package com.carservice.models;
+package com.carservice.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "services")
-@Data
 public class RepairService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,16 +53,7 @@ public class RepairService {
     @ManyToOne(fetch = FetchType.LAZY)
     private Car car;
 
-    public RepairService() {
-    }
-
-    public RepairService(String type, Long mileage, Car car) {
-        this.type = type;
-        this.mileage = mileage;
-        this.car = car;
-    }
-
-    public String formatCreationDate() {
+    public String getFormattedCreatedAt() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
         return dateFormat.format(this.createdAt);
     }

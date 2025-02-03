@@ -16,6 +16,6 @@ public class CarServiceApplication {
 
     @EventListener(ApplicationReadyEvent.class)
     public void openBrowserAfterStartup() throws IOException {
-        java.awt.Desktop.getDesktop().browse(java.net.URI.create("http://localhost:8000"));
+        java.awt.Desktop.getDesktop().browse(java.net.URI.create("http://localhost:8000/car/my/service"));
     }
 }
