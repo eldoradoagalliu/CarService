@@ -7,6 +7,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Car Service</title>
     <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
@@ -14,18 +15,18 @@
 <body>
 <h1 class="text-decoration-underline mb-3">My Service</h1>
 <div class="main-part">
-    <c:if test="${searchEnabled == true}">
+    <c:if test="${searchEnabled}">
         <div class="float-start">
-            <a href="/" class="btn btn-primary"><- Back</a>
+            <a href="/car/my/service" class="btn btn-primary"><- Back</a>
         </div>
     </c:if>
     <div class="search-part mt-2 mx-5 px-5">
-        <form:form action="/searchCar" method="post">
+        <form:form action="/car/search" method="post">
             <label><input name="inputtedPlate" placeholder="Input car plate" required="required"/></label>
             <button class="btn btn-success button-font mx-2">Search</button>
         </form:form>
     </div>
-    <c:if test="${searchEnabled == true}">
+    <c:if test="${searchEnabled}">
         <div>
             <c:choose>
                 <c:when test="${carPlate != null}">
@@ -38,11 +39,11 @@
         </div>
         <div class="extra-margin"></div>
     </c:if>
-    <c:if test="${showAddCarForm == true}">
+    <c:if test="${showAddCarForm}">
         <h3 class="mt-5">Add new car to service</h3>
         <div class="new-car-part mb-5">
-                <%--@elvariable id="car" type=""--%>
-            <form:form action="/addCar" method="post" modelAttribute="car">
+            <%--@elvariable id="car" type=""--%>
+            <form:form action="/car" method="post" modelAttribute="car">
                 <c:if test="${carExistsMessage != null}">
                     <div class="text-danger">${carExistsMessage}</div>
                 </c:if>
@@ -57,8 +58,8 @@
         </div>
     </c:if>
     <div>
-        <c:if test="${cars.size() > 0}">
-            <c:if test="${showAllCars == true}"><h3>Total number of cars: <c:out value="${cars.size()}"/></h3></c:if>
+        <c:if test="${!cars.isEmpty()}">
+            <c:if test="${showAllCars}"><h3>Total number of cars: <c:out value="${cars.size()}"/></h3></c:if>
             <h3 class="mt-3">Cars added to this service:</h3>
             <c:choose>
                 <c:when test="${showAllCars == null}">
@@ -71,7 +72,7 @@
                             </li>
                         </c:forEach>
                         <c:if test="${cars.size() > 10}">
-                            <li class="no-bullet-list m-2 d-inline-block"><a href="/showAllCars">See more...</a></li>
+                            <li class="no-bullet-list m-2 d-inline-block"><a href="/show/all">See more...</a></li>
                         </c:if>
                     </ul>
                 </c:when>
